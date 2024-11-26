@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool dfs(vector<vector<char>>& board,int i,int j,int index,string word,vector<vector<bool>>&vis,int n,int m){
+        if(index==word.size()){
+            return true;
+        }
+        if(i<0 or j<0 or i>=n or j>=m or vis[i][j] or board[i][j]!=word[index]){
+               return false;
+        }
+        vis[i][j]=true;
+        int x[]={-1,1,0,0};
+        int y[]={0,0,-1,1};
+        bool ans=false;
+        for(int k=0;k<=3;k++){
+             ans=dfs(board,i+x[k],j+y[k],index+1,word,vis,n,m);
+             if(ans){
+                return true;
+             }
+        }
+        vis[i][j]=false;
+        return false;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n=board.size();
+        int m=board[0].size();
+        vector<vector<bool>>vis(n,vector<bool>(m,false));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word[0]){
+                    bool check=dfs(board,i,j,0,word,vis,n,m);
+                    if(check){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};

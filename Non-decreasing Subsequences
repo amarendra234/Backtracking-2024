@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void find_all_sequence(vector<int>&nums,int index,int pre,vector<vector<int>>&ans,vector<int>&temp,set<vector<int>>&st){
+        if(index>=nums.size()){
+            if(temp.size()>=2){
+                if(st.find(temp)==st.end()){
+                      ans.push_back(temp);
+                      st.insert(temp);
+                }
+                
+            }
+            return;
+        }
+        // if(temp.size()>=2){
+        //     ans.push_back(temp);
+        //  }
+        // inlcude in vector
+         if(pre==-1 or nums[index]>=nums[pre]){
+             temp.push_back(nums[index]);
+             find_all_sequence(nums,index+1,index,ans,temp,st);
+             temp.pop_back();
+         }
+         // not include
+         find_all_sequence(nums,index+1,pre,ans,temp,st);
+    }
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        set<vector<int>>st;
+        find_all_sequence(nums,0,-1,ans,temp,st);
+        return ans;
+    }
+};

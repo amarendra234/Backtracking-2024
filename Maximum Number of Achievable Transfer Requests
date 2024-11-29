@@ -1,0 +1,38 @@
+class Solution {
+public:
+    void maximum_request(vector<vector<int>>&arr,int index,vector<int>&request,int &res,int count){
+        if(index==arr.size()){
+            int f=0;
+            for(int i=0;i<request.size();i++){
+                if(request[i]!=0){
+                    f=1;
+                    break;
+                }
+            }
+            if(f==0){
+                res=max(res,count);
+            }
+            return;
+        }
+        // include in answer
+        int to=arr[index][0];
+        int from=arr[index][1];
+        request[to]--;
+        request[from]++;
+        count++;
+        maximum_request(arr,index+1,request,res,count);
+        request[to]++;
+        request[from]--;
+        count--;
+        // not include
+        maximum_request(arr,index+1,request,res,count);
+
+    }
+    int maximumRequests(int n, vector<vector<int>>& requests) {
+        vector<int>request(n,0);
+        int res=INT_MIN;
+        maximum_request(requests,0,request,res,0);
+
+        return res;
+    }
+};

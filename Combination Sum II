@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void combination_sum(vector<int>&arr,int index,vector<vector<int>>&ans,vector<int>&temp,int target,int &sum){
+             if(index==arr.size()){
+                if(sum==target){
+                    ans.push_back(temp);
+                }
+                return;
+             }
+             if(sum>target){
+                return;
+             }
+             // include in sum
+             sum+=arr[index];
+             temp.push_back(arr[index]);
+             combination_sum(arr,index+1,ans,temp,target,sum);
+             sum-=arr[index];
+             temp.pop_back();
+             // don't include sum
+             while(index+1<arr.size() and arr[index]==arr[index+1]){
+                index++;
+             }
+             combination_sum(arr,index+1,ans,temp,target,sum);
+    } 
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        sort(candidates.begin(),candidates.end());
+        int sum=0;
+        combination_sum(candidates,0,ans,temp,target,sum);
+        return ans;
+    }
+};

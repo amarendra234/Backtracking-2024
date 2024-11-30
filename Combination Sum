@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void subset_sequence(vector<int>&arr,int index,vector<vector<int>>&ans,vector<int>&temp,int target,int &sum){
+        if(index==arr.size()){
+            if(sum==target){
+                ans.push_back(temp);
+            }
+            return;
+        }
+        if(sum>target){
+            return;
+        }
+        // include in array
+        sum+=arr[index];
+        temp.push_back(arr[index]);
+        subset_sequence(arr,index,ans,temp,target,sum);
+        sum-=arr[index];
+        temp.pop_back();
+
+        // not include
+        subset_sequence(arr,index+1,ans,temp,target,sum);
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>ans;
+        vector<int>temp;
+        int sum=0;
+        subset_sequence(candidates,0,ans,temp,target,sum);
+
+        return ans;
+    }
+};
